@@ -74,7 +74,7 @@ const SiteVisitModal = ({ onClose, onSuccess }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-[#0B1C30]/60 backdrop-blur-lg z-[9999] flex items-center justify-center p-4">
             <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
                 <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                     <h3 className="text-xl font-bold text-slate-900">Submit Site Visit</h3>
@@ -171,7 +171,7 @@ const SiteVisitModal = ({ onClose, onSuccess }) => {
                     <button
                         type="submit"
                         disabled={loading || capturingLocation}
-                        className="w-full py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        className="w-full py-3 bg-primary text-[#FFE088] font-bold rounded-xl hover:bg-opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                         {loading ? (
                             <>Submitting...</>

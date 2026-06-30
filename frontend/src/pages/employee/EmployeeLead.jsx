@@ -394,7 +394,7 @@ const EmployeeLeadModal = ({ lead, onClose, onStatusUpdate }) => {
                                                 disabled={updating}
                                                 className={`w-full py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors flex items-center justify-center ${updating
                                                     ? 'bg-surface-container-high text-outline cursor-not-allowed'
-                                                    : 'bg-primary text-white hover:bg-opacity-95 shadow-sm active:scale-95'
+                                                    : 'bg-primary text-[#FFE088] hover:bg-opacity-90 shadow-sm active:scale-95'
                                                     }`}
                                             >
                                                 {updating ? 'Updating…' : 'Update Status'}

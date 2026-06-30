@@ -264,8 +264,8 @@ export default function EmployeeSiteVisit() {
                 {/* SITE VISIT DETAILS MODAL */}
                 {isModalOpen && selectedVisit && (
                     <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 animate-fade-in" id="visitModal">
-                        <div className="absolute inset-0 bg-primary/40 backdrop-blur-md" onClick={() => setIsModalOpen(false)}></div>
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] animate-scale-up">
+                        <div className="absolute inset-0 bg-[#0B1C30]/60 backdrop-blur-lg" onClick={() => setIsModalOpen(false)}></div>
+                        <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] z-10 animate-scale-up">
                             {/* Modal Header */}
                             <div className="p-6 border-b border-outline-variant/30 flex justify-between items-center bg-surface-container-low">
                                 <div>
@@ -409,7 +409,7 @@ export default function EmployeeSiteVisit() {
                             <div className="p-6 border-t border-outline-variant/30 bg-surface flex gap-3">
                                 <button className="flex-1 bg-white border border-outline text-primary font-bold text-xs uppercase tracking-wider py-3 rounded-xl hover:bg-surface transition-all active:scale-95 shadow-sm" onClick={() => setIsModalOpen(false)}>Cancel</button>
                                 {can('verify_own_sitevisit') ? (
-                                    <button className="flex-1 bg-primary text-white font-bold text-xs uppercase tracking-wider py-3 rounded-xl hover:bg-opacity-95 active:scale-95 transition-all shadow-md" onClick={handleCompleteVisit}>Complete Visit</button>
+                                    <button className="flex-1 bg-primary text-[#FFE088] font-bold text-xs uppercase tracking-wider py-3 rounded-xl hover:bg-opacity-95 active:scale-95 transition-all shadow-md" onClick={handleCompleteVisit}>Complete Visit</button>
                                 ) : (
                                     <button className="flex-1 bg-surface-container text-on-surface-variant font-bold text-xs uppercase tracking-wider py-3 rounded-xl cursor-not-allowed opacity-50 flex items-center justify-center gap-2 shadow-sm" title="Access Restricted">
                                         <span className="material-symbols-outlined text-sm">lock</span> Complete Visit

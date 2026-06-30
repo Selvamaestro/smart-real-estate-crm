@@ -11,9 +11,7 @@ const cleanEnvUrl = getCleanAPIURL();
 
 const BASE_URL = cleanEnvUrl
   ? `${cleanEnvUrl}/api`
-  : (isDev
-    ? "http://localhost:5000/api"
-    : "https://lead-management-asset-promoters-2.onrender.com/api");
+  : "https://lead-management-asset-promoters-2.onrender.com/api";
 
 export const getBackendURL = (path) => {
   if (!path) return "";
@@ -21,9 +19,7 @@ export const getBackendURL = (path) => {
 
   const baseDomain = cleanEnvUrl
     ? cleanEnvUrl
-    : (isDev
-      ? "http://localhost:5000"
-      : "https://lead-management-asset-promoters-2.onrender.com");
+    : "https://lead-management-asset-promoters-2.onrender.com";
 
   const cleanPath = path.startsWith("/") ? path : `/${path}`;
   return `${baseDomain}${cleanPath}`;
