@@ -57,7 +57,7 @@ const SiteVisitVerification = () => {
 
     return (
         <AdminLayout>
-            <div className="max-w-[1440px] mx-auto p-lg">
+            <div className="max-w-[1440px] mx-auto px-8 pt-5 pb-10">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-xl gap-md">
                     <div>
                         <h2 className="text-3xl font-bold text-slate-900">Site Visit Verification</h2>

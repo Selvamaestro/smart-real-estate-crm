@@ -119,7 +119,7 @@ export default function PropertyManagement() {
 
     return (
         <AdminLayout>
-            <div className="p-4 sm:p-8 pb-24 max-w-[1720px] mx-auto min-h-screen bg-[#F8F9FF] font-['Poppins',sans-serif]">
+            <div className="px-4 pt-5 sm:px-8 pb-16 max-w-[1720px] mx-auto min-h-screen bg-[#F8F9FF] font-['Poppins',sans-serif]">
                 <Notification notification={notification} />
 
                 {/* Page Header matching LuxeCRM */}
@@ -228,7 +228,7 @@ export default function PropertyManagement() {
                 ) : (
                     <div className={cn(view === 'grid' ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" : "grid grid-cols-1 lg:grid-cols-2 gap-6")}>
                         {filteredProperties.map(p => (
-                            <div key={p._id} onClick={() => setSelectedProperty(p)} className={cn("bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-[#c5c6ce]/30 cursor-pointer transition-shadow", view === 'list' && "flex items-center")}>
+                            <div key={p._id} onClick={() => setSelectedProperty(p)} className={cn("bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-[#c5c6ce]/30 cursor-pointer transition-all hover:scale-[1.02] flex flex-col h-full", view === 'list' && "flex-row items-center h-auto")}>
                                 <div className={cn("relative", view === 'grid' ? "h-48 w-full" : "h-32 w-48 shrink-0")}>
                                     <img src={p.image || (p.images && p.images[0]) || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750"} alt={p.title} className="w-full h-full object-cover" />
                                     <div className="absolute top-3 left-3">

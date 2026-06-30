@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import EmployeeLayout from '../../components/layout/EmployeeLayout';
 import { useAuth } from '../../context/AuthContext';
 import { useRBAC } from '../../utils/rbac';
@@ -266,9 +267,9 @@ const EmployeeLeadModal = ({ lead, onClose, onStatusUpdate }) => {
 
     const qualifyPercent = Math.min(100, Math.round(((currentStage + 1) / WORKFLOW_STAGES.length) * 100));
 
-    return (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 animate-fade-in">
-            <div className="absolute inset-0 bg-primary/40 backdrop-blur-md" onClick={onClose}></div>
+    return createPortal(
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-6 animate-fade-in">
+            <div className="absolute inset-0 bg-primary/50 backdrop-blur-md" onClick={onClose}></div>
             <div className="relative bg-white rounded-3xl w-full max-w-4xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden animate-scale-up">
                 {/* Modal Header */}
                 <div className="p-8 border-b border-outline-variant/30 bg-surface-container-low">
@@ -564,7 +565,8 @@ const EmployeeLeadModal = ({ lead, onClose, onStatusUpdate }) => {
                     </button>
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };
 
@@ -655,7 +657,7 @@ export default function EmployeeLead() {
 
     return (
         <EmployeeLayout>
-            <div className="max-w-[1600px] mx-auto px-8 py-10 space-y-8 animate-fade-in bg-background min-h-screen text-on-background">
+            <div className="max-w-[1600px] mx-auto px-8 pt-5 pb-10 space-y-8 animate-fade-in bg-background min-h-screen text-on-background">
                 {toast && (
                     <div className={`fixed top-24 right-8 z-[9999] px-5 py-3 rounded-2xl border shadow-lg font-bold text-xs flex items-center gap-2 ${toast.type === 'error' ? 'bg-red-50 text-red-600 border-red-200' : 'bg-green-50 text-green-700 border-green-200'
                         }`}>

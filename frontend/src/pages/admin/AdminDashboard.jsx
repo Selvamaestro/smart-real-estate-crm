@@ -318,7 +318,7 @@ const AdminDashboard = () => {
 
   return (
     <AdminLayout>
-      <div className="p-8 md:px-10 md:py-8 max-w-[1720px] mx-auto space-y-6 bg-[#fbfbfa] min-h-screen font-sans pb-20">
+      <div className="px-8 pt-5 pb-20 md:px-10 md:pt-5 max-w-[1720px] mx-auto space-y-6 bg-[#fbfbfa] min-h-screen font-sans">
 
         {/* Welcome Greeting Banner & Action */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-8 rounded-2xl border border-slate-100 shadow-sm gap-4">

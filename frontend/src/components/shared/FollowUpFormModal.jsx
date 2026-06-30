@@ -68,8 +68,9 @@ export default function FollowUpFormModal({ isOpen, onClose, onSave, followUp, s
     };
 
     return createPortal(
-        <div className="fixed top-0 bottom-0 right-0 z-[60] flex items-center justify-center p-6 animate-fade-in" style={{ left: 'var(--sidebar-width, 0px)', transition: 'left 300ms cubic-bezier(0.4, 0, 0.2, 1)' }}>
-            <div className="absolute inset-0 bg-primary-container/40 backdrop-blur-sm" onClick={onClose}></div>
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-6 animate-fade-in">
+            <div className="absolute inset-0 bg-primary-container/50 backdrop-blur-sm" onClick={onClose}></div>
+
             <div className="glass-modal w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-2xl shadow-2xl relative flex flex-col bg-white">
                 {/* Modal Header */}
                 <div className="p-8 border-b border-outline-variant flex justify-between items-start">

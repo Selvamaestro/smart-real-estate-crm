@@ -85,7 +85,7 @@ export default function EmployeeManagement() {
 
     return (
         <AdminLayout>
-            <div className="p-8 pb-24 max-w-7xl mx-auto space-y-6">
+            <div className="px-8 pt-5 pb-10 max-w-7xl mx-auto space-y-6">
                 <Notification notification={notification} />
 
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">

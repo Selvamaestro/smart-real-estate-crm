@@ -74,7 +74,7 @@ const SiteVisitModal = ({ onClose, onSuccess }) => {
     };
 
     return (
-        <div className="fixed top-0 bottom-0 right-0 bg-slate-900/50 backdrop-blur-sm z-[2000] flex items-center justify-center p-4" style={{ left: 'var(--sidebar-width, 0px)', transition: 'left 300ms cubic-bezier(0.4, 0, 0.2, 1)' }}>
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
             <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
                 <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                     <h3 className="text-xl font-bold text-slate-900">Submit Site Visit</h3>

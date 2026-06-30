@@ -211,7 +211,7 @@
 
 /* Page Title */
 .page-title-section {
-  padding: 32px var(--page-gutter) 24px;
+  padding: 16px var(--page-gutter) 24px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;

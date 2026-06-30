@@ -60,7 +60,7 @@ export default function EmployeeSiteVisit() {
 
     return (
         <EmployeeLayout>
-            <div className="max-w-[1600px] mx-auto px-8 py-10 space-y-8 animate-fade-in bg-background min-h-screen text-on-background">
+            <div className="max-w-[1600px] mx-auto px-8 pt-5 pb-10 space-y-8 animate-fade-in bg-background min-h-screen text-on-background">
 
                 {/* HEADER SECTION */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">

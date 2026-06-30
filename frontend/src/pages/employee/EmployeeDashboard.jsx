@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { useAuth } from "../../context/AuthContext";
 import EmployeeLayout from "../../components/layout/EmployeeLayout";
 import Notification from "../../components/common/Notification";
@@ -249,7 +250,7 @@ export default function EmployeeDashboard() {
 
   return (
     <EmployeeLayout>
-      <main className="p-8 space-y-8 max-w-[1600px] mx-auto animate-fade-in">
+      <main className="px-8 pt-5 pb-10 space-y-8 max-w-[1600px] mx-auto animate-fade-in">
 
         {/* Notification Alert Box */}
         <Notification notification={notification} />
@@ -579,8 +580,8 @@ export default function EmployeeDashboard() {
       </main>
 
       {/* Add Lead Popup Modal */}
-      {showAddLeadModal && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      {showAddLeadModal && createPortal(
+        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[9999] flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl w-full max-w-lg shadow-xl overflow-hidden animate-zoom-in text-[#171C2D]">
             {/* Modal Header */}
             <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center">
@@ -687,7 +688,8 @@ export default function EmployeeDashboard() {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </EmployeeLayout>
   );

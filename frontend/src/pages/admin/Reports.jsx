@@ -565,7 +565,7 @@ export default function Reports() {
 
     return (
         <AdminLayout>
-            <div className="p-8 pb-24 max-w-[1400px] mx-auto">
+            <div className="px-8 pt-5 pb-10 max-w-[1400px] mx-auto">
                 <Routes>
                     <Route path="/" element={<Navigate to="analytics" replace />} />
                     <Route path="analytics" element={<DashboardAnalytics leads={leads} properties={properties} users={users} loading={loading} />} />

@@ -118,10 +118,8 @@ const AdminLeadForm = ({ lead, employees, onClose, onSubmit }) => {
       onClick={onClose}
       style={{
         position: 'fixed',
-        top: 0, bottom: 0, right: 0,
-        left: 'var(--sidebar-width, 0px)',
-        transition: 'left 300ms cubic-bezier(0.4, 0, 0.2, 1)',
-        backgroundColor: 'rgba(15, 23, 42, 0.5)',
+        inset: 0,
+        backgroundColor: 'rgba(15, 23, 42, 0.6)',
         backdropFilter: 'blur(4px)',
         zIndex: 9999,
         display: 'flex',
