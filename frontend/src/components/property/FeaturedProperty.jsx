@@ -69,7 +69,7 @@ export default function FeaturedProperty({ property, stats }) {
                     </div>
                     <div>
                         <p className="text-body-md text-on-primary-container/85">Active Listings</p>
-                        <h4 className="text-display-lg font-display-lg font-bold">{stats.total || 0}</h4>
+                        <h4 className="text-display-lg font-display-lg font-bold">{stats.available || 0}</h4>
                     </div>
                 </div>
                 <div className="bg-secondary-container rounded-3xl p-6 text-on-secondary-container h-[calc(50%-12px)] flex flex-col justify-between shadow-sm">

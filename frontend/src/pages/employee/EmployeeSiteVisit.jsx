@@ -263,7 +263,7 @@ export default function EmployeeSiteVisit() {
 
                 {/* SITE VISIT DETAILS MODAL */}
                 {isModalOpen && selectedVisit && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 animate-fade-in" id="visitModal">
+                    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-6 animate-fade-in" id="visitModal">
                         <div className="absolute inset-0 bg-[#0B1C30]/60 backdrop-blur-lg" onClick={() => setIsModalOpen(false)}></div>
                         <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh] z-10 animate-scale-up">
                             {/* Modal Header */}

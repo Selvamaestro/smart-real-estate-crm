@@ -10,6 +10,7 @@ const SiteVisitModal = ({ onClose, onSuccess }) => {
         remarks: '',
     });
     const [selfie, setSelfie] = useState(null);
+    const [selfiePreview, setSelfiePreview] = useState('');
     const [loading, setLoading] = useState(false);
     const [capturingLocation, setCapturingLocation] = useState(false);
 
@@ -139,14 +140,32 @@ const SiteVisitModal = ({ onClose, onSuccess }) => {
                                 required
                                 className="hidden"
                                 id="selfie-upload"
-                                onChange={e => setSelfie(e.target.files[0])}
+                                onChange={e => {
+                                    const file = e.target.files[0];
+                                    if (file) {
+                                        if (file.size > 5 * 1024 * 1024) {
+                                            alert("File size exceeds 5MB limit. Please choose a smaller image.");
+                                            e.target.value = null;
+                                            setSelfie(null);
+                                            setSelfiePreview('');
+                                            return;
+                                        }
+                                        setSelfie(file);
+                                        setSelfiePreview(URL.createObjectURL(file));
+                                    }
+                                }}
                             />
                             <label
                                 htmlFor="selfie-upload"
-                                className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-slate-200 rounded-xl cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-all text-slate-500"
+                                className="flex flex-col items-center justify-center gap-2 p-4 border-2 border-dashed border-slate-200 rounded-xl cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-all text-slate-500 overflow-hidden min-h-[140px]"
                             >
-                                {selfie ? (
-                                    <span className="text-blue-600 font-bold">{selfie.name}</span>
+                                {selfiePreview ? (
+                                    <div className="relative w-full h-32 rounded-lg overflow-hidden border border-slate-200 bg-slate-50">
+                                        <img src={selfiePreview} alt="Selfie Preview" className="w-full h-full object-cover" />
+                                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
+                                            <span className="text-white text-xs font-bold">Change Selfie</span>
+                                        </div>
+                                    </div>
                                 ) : (
                                     <>
                                         <span className="material-symbols-outlined">photo_camera</span>

@@ -94,7 +94,36 @@ const getDashboardStats = async (req, res) => {
             ];
         }
 
-        res.json({ success: true, data: stats });
+        let operationalEfficiency = {
+            convRate: "88.4%",
+            responseTime: "1.2h",
+            score: "94.8",
+            targetStatus: "Ahead of Plan"
+        };
+
+        if (role === 'admin') {
+            const totalLeads = await Lead.countDocuments();
+            const closedLeads = await Lead.countDocuments({ status: { $in: ['Closed', 'Won', 'Booked', 'Sold'] } });
+            const conv = totalLeads > 0 ? ((closedLeads / totalLeads) * 100).toFixed(1) : "0.0";
+            operationalEfficiency = {
+                convRate: `${conv}%`,
+                responseTime: "1.0h",
+                score: (80 + parseFloat(conv) * 0.15).toFixed(1),
+                targetStatus: parseFloat(conv) > 30 ? "Ahead of Plan" : "On Track"
+            };
+        } else {
+            const assignedLeadsCount = await Lead.countDocuments({ assignedTo: _id });
+            const closedLeadsCount = await Lead.countDocuments({ assignedTo: _id, status: { $in: ['Closed', 'Won', 'Booked', 'Sold'] } });
+            const conv = assignedLeadsCount > 0 ? ((closedLeadsCount / assignedLeadsCount) * 100).toFixed(1) : "0.0";
+            operationalEfficiency = {
+                convRate: `${conv}%`,
+                responseTime: assignedLeadsCount > 0 ? "1.5h" : "0.0h",
+                score: assignedLeadsCount > 0 ? (75 + parseFloat(conv) * 0.2).toFixed(1) : "0.0",
+                targetStatus: parseFloat(conv) > 20 ? "Ahead of Plan" : "On Track"
+            };
+        }
+
+        res.json({ success: true, data: stats, operationalEfficiency });
     } catch (error) {
         console.error('Failed to get dashboard stats:', error);
         res.status(500).json({ success: false, message: 'Unable to load dashboard stats.' });
