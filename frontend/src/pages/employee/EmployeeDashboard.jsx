@@ -19,6 +19,13 @@ export default function EmployeeDashboard() {
   const [activityFeed, setActivityFeed] = useState([]);
   const [priorityCount, setPriorityCount] = useState(0);
   const [isFetching, setIsFetching] = useState(true);
+  const [graphPeriod, setGraphPeriod] = useState("MONTHLY");
+  const [operationalEfficiency, setOperationalEfficiency] = useState({
+    convRate: "88.4%",
+    responseTime: "1.2h",
+    score: "94.8",
+    targetStatus: "Ahead of Plan"
+  });
 
   // Add Lead Modal State
   const [showAddLeadModal, setShowAddLeadModal] = useState(false);
@@ -43,15 +50,18 @@ export default function EmployeeDashboard() {
 
       if (statsRes.data?.success) {
         setStats(statsRes.data.data);
+        if (statsRes.data.operationalEfficiency) {
+          setOperationalEfficiency(statsRes.data.operationalEfficiency);
+        }
       }
 
       if (followupsRes.data?.success) {
         // filter for active/today schedules
         setSchedule(followupsRes.data.data);
         const overdue = followupsRes.data.data.filter(f => f.status === "Overdue" || f.status === "Pending").length;
-        setPriorityCount(overdue || 12); // fallback to 12 if none to match design check
+        setPriorityCount(overdue);
       } else {
-        setPriorityCount(12);
+        setPriorityCount(0);
       }
 
       // Generate a realistic activity feed based on actual leads
@@ -125,14 +135,25 @@ export default function EmployeeDashboard() {
       gradEngagement.addColorStop(0, 'rgba(244, 180, 0, 0.15)');
       gradEngagement.addColorStop(1, 'rgba(244, 180, 0, 0)');
 
+      let labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+      let data = [110, 125, 132, 126, 155, 120, 148];
+
+      if (graphPeriod === "WEEKLY") {
+        labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        data = [12, 19, 15, 25, 22, 30, 28];
+      } else if (graphPeriod === "QUARTERLY") {
+        labels = ['Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025', 'Q1 2026', 'Q2 2026'];
+        data = [350, 420, 480, 510, 450, 580];
+      }
+
       const myChart = new window.Chart(ctx, {
         type: 'line',
         data: {
-          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+          labels: labels,
           datasets: [
             {
               label: 'Engagement',
-              data: [110, 125, 132, 126, 155, 120, 148],
+              data: data,
               borderColor: '#F4B400',
               backgroundColor: gradEngagement,
               fill: true,
@@ -185,7 +206,7 @@ export default function EmployeeDashboard() {
       });
       return () => myChart.destroy();
     }
-  }, [isFetching]);
+  }, [isFetching, graphPeriod]);
 
   // Lead Submission Handler
   const handleAddLeadSubmit = async (e) => {
@@ -316,9 +337,9 @@ export default function EmployeeDashboard() {
                 <p className="text-[10px] text-slate-400 uppercase font-extrabold tracking-wider mt-0.5">Engagement Performance Tracking</p>
               </div>
               <div className="flex bg-slate-100/80 rounded-xl p-1 text-[11px] font-bold">
-                <button className="px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-[#171C2D] transition-colors">WEEKLY</button>
-                <button className="px-3.5 py-1.5 rounded-lg bg-white shadow-sm text-[#171C2D]">MONTHLY</button>
-                <button className="px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-[#171C2D] transition-colors">QUARTERLY</button>
+                <button onClick={() => setGraphPeriod("WEEKLY")} className={`px-3.5 py-1.5 rounded-lg transition-colors ${graphPeriod === "WEEKLY" ? "bg-white shadow-sm text-[#171C2D]" : "text-slate-400 hover:text-[#171C2D]"}`}>WEEKLY</button>
+                <button onClick={() => setGraphPeriod("MONTHLY")} className={`px-3.5 py-1.5 rounded-lg transition-colors ${graphPeriod === "MONTHLY" ? "bg-white shadow-sm text-[#171C2D]" : "text-slate-400 hover:text-[#171C2D]"}`}>MONTHLY</button>
+                <button onClick={() => setGraphPeriod("QUARTERLY")} className={`px-3.5 py-1.5 rounded-lg transition-colors ${graphPeriod === "QUARTERLY" ? "bg-white shadow-sm text-[#171C2D]" : "text-slate-400 hover:text-[#171C2D]"}`}>QUARTERLY</button>
               </div>
             </div>
             <div className="flex-grow h-[260px] relative">
@@ -337,7 +358,7 @@ export default function EmployeeDashboard() {
             <div className="flex items-center justify-center py-4 relative">
               <div className="w-[140px] h-[140px] rounded-full flex items-center justify-center relative bg-gradient-to-tr from-amber-400 to-[#F4B400] shadow-[0_4px_24px_rgba(244,180,0,0.25)]">
                 <div className="w-[110px] h-[110px] bg-white rounded-full flex flex-col items-center justify-center shadow-inner">
-                  <span className="text-3xl font-black text-[#171C2D]">94.8</span>
+                  <span className="text-3xl font-black text-[#171C2D]">{operationalEfficiency.score}</span>
                   <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest">Score</span>
                 </div>
               </div>
@@ -347,15 +368,17 @@ export default function EmployeeDashboard() {
             <div className="space-y-3.5 border-t border-slate-100 pt-4">
               <div className="flex justify-between items-center">
                 <span className="text-xs font-semibold text-slate-400">Conv. Rate</span>
-                <span className="text-xs font-bold text-[#171C2D]">88.4%</span>
+                <span className="text-xs font-bold text-[#171C2D]">{operationalEfficiency.convRate}</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-xs font-semibold text-slate-400">Resp. Time</span>
-                <span className="text-xs font-bold text-[#171C2D]">1.2h</span>
+                <span className="text-xs font-bold text-[#171C2D]">{operationalEfficiency.responseTime}</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-xs font-semibold text-slate-400">Target Status</span>
-                <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Ahead of Plan</span>
+                <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${operationalEfficiency.targetStatus === "Ahead of Plan" ? "text-emerald-600 bg-emerald-50" : "text-blue-600 bg-blue-50"}`}>
+                  {operationalEfficiency.targetStatus}
+                </span>
               </div>
             </div>
           </div>
@@ -443,50 +466,80 @@ export default function EmployeeDashboard() {
             <h3 className="text-md font-bold text-[#171C2D] mb-5">Actionable Reminders</h3>
 
             <div className="relative border-l border-slate-100 pl-6 space-y-6">
-              {/* Event 1 */}
-              <div className="relative">
-                <span className="absolute -left-[31px] top-1 w-2.5 h-2.5 bg-red-500 rounded-full" />
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <h4 className="text-sm font-bold text-[#171C2D]">Contract Expiry Warning</h4>
-                    <p className="text-xs font-semibold text-slate-400 mt-0.5">Apex Corp • <span className="text-red-500 font-bold text-[10px] uppercase">High Priority</span></p>
+              {schedule.length > 0 ? (
+                schedule.slice(0, 3).map((item, idx) => {
+                  const dateObj = new Date(item.followUpDate || item.scheduledAt || Date.now());
+                  const day = dateObj.getDate();
+                  const month = dateObj.toLocaleString('default', { month: 'short' }).toUpperCase();
+                  const isOverdue = item.status === 'Overdue';
+                  return (
+                    <div className="relative" key={idx}>
+                      <span className={`absolute -left-[31px] top-1 w-2.5 h-2.5 rounded-full ${isOverdue ? 'bg-red-500' : 'bg-[#F4B400]'}`} />
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <h4 className="text-sm font-bold text-[#171C2D]">
+                            {isOverdue ? 'Overdue Follow-up' : 'Scheduled Follow-up'}
+                          </h4>
+                          <p className="text-xs font-semibold text-slate-400 mt-0.5">
+                            {item.leadId?.name || "Client"} • <span className={`${isOverdue ? 'text-red-500' : 'text-amber-500'} font-bold text-[10px] uppercase`}>{isOverdue ? 'High Priority' : 'Event'}</span>
+                          </p>
+                        </div>
+                        <span className="text-[10px] font-bold text-slate-400 bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-center leading-none min-w-[50px] shrink-0">
+                          <div className="text-xs font-black text-[#171C2D]">{day}</div>
+                          <div className="mt-0.5 uppercase tracking-wider text-[8px]">{month}</div>
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <>
+                  {/* Event 1 */}
+                  <div className="relative">
+                    <span className="absolute -left-[31px] top-1 w-2.5 h-2.5 bg-red-500 rounded-full" />
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <h4 className="text-sm font-bold text-[#171C2D]">Contract Expiry Warning</h4>
+                        <p className="text-xs font-semibold text-slate-400 mt-0.5">Apex Corp • <span className="text-red-500 font-bold text-[10px] uppercase">High Priority</span></p>
+                      </div>
+                      <span className="text-[10px] font-bold text-slate-400 bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-center leading-none min-w-[50px] shrink-0">
+                        <div className="text-xs font-black text-[#171C2D]">14</div>
+                        <div className="mt-0.5 uppercase tracking-wider text-[8px]">OCT</div>
+                      </span>
+                    </div>
                   </div>
-                  <span className="text-[10px] font-bold text-slate-400 bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-center leading-none min-w-[50px] shrink-0">
-                    <div className="text-xs font-black text-[#171C2D]">14</div>
-                    <div className="mt-0.5 uppercase tracking-wider text-[8px]">OCT</div>
-                  </span>
-                </div>
-              </div>
 
-              {/* Event 2 */}
-              <div className="relative">
-                <span className="absolute -left-[31px] top-1 w-2.5 h-2.5 bg-[#F4B400] rounded-full" />
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <h4 className="text-sm font-bold text-[#171C2D]">VIP Gala Networking</h4>
-                    <p className="text-xs font-semibold text-slate-400 mt-0.5">Ritz Carlton • 7:00 PM • <span className="text-amber-500 font-bold text-[10px] uppercase">Event</span></p>
+                  {/* Event 2 */}
+                  <div className="relative">
+                    <span className="absolute -left-[31px] top-1 w-2.5 h-2.5 bg-[#F4B400] rounded-full" />
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <h4 className="text-sm font-bold text-[#171C2D]">VIP Gala Networking</h4>
+                        <p className="text-xs font-semibold text-slate-400 mt-0.5">Ritz Carlton • 7:00 PM • <span className="text-amber-500 font-bold text-[10px] uppercase">Event</span></p>
+                      </div>
+                      <span className="text-[10px] font-bold text-slate-400 bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-center leading-none min-w-[50px] shrink-0">
+                        <div className="text-xs font-black text-[#171C2D]">16</div>
+                        <div className="mt-0.5 uppercase tracking-wider text-[8px]">OCT</div>
+                      </span>
+                    </div>
                   </div>
-                  <span className="text-[10px] font-bold text-slate-400 bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-center leading-none min-w-[50px] shrink-0">
-                    <div className="text-xs font-black text-[#171C2D]">16</div>
-                    <div className="mt-0.5 uppercase tracking-wider text-[8px]">OCT</div>
-                  </span>
-                </div>
-              </div>
 
-              {/* Event 3 */}
-              <div className="relative">
-                <span className="absolute -left-[31px] top-1 w-2.5 h-2.5 bg-slate-350 rounded-full" />
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <h4 className="text-sm font-bold text-[#171C2D]">Quarterly Portfolio Review</h4>
-                    <p className="text-xs font-semibold text-slate-400 mt-0.5">Internal HQ • 10:00 AM </p>
+                  {/* Event 3 */}
+                  <div className="relative">
+                    <span className="absolute -left-[31px] top-1 w-2.5 h-2.5 bg-slate-350 rounded-full" />
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <h4 className="text-sm font-bold text-[#171C2D]">Quarterly Portfolio Review</h4>
+                        <p className="text-xs font-semibold text-slate-400 mt-0.5">Internal HQ • 10:00 AM </p>
+                      </div>
+                      <span className="text-[10px] font-bold text-slate-400 bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-center leading-none min-w-[50px] shrink-0">
+                        <div className="text-xs font-black text-[#171C2D]">19</div>
+                        <div className="mt-0.5 uppercase tracking-wider text-[8px]">OCT</div>
+                      </span>
+                    </div>
                   </div>
-                  <span className="text-[10px] font-bold text-slate-400 bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-center leading-none min-w-[50px] shrink-0">
-                    <div className="text-xs font-black text-[#171C2D]">19</div>
-                    <div className="mt-0.5 uppercase tracking-wider text-[8px]">OCT</div>
-                  </span>
-                </div>
-              </div>
+                </>
+              )}
             </div>
           </div>
         </div>
