@@ -90,7 +90,7 @@ export default function PropertyFormModal({ mode, initialProperty, onClose, onSu
     };
 
     return createPortal(
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center font-['Poppins',sans-serif] p-4">
+        <div className="fixed top-0 bottom-0 right-0 z-[9999] flex items-center justify-center font-['Poppins',sans-serif] p-4" style={{ left: 'var(--sidebar-width, 0px)', transition: 'left 300ms cubic-bezier(0.4, 0, 0.2, 1)' }}>
             <div className="absolute inset-0 bg-[#0B1C30]/50 backdrop-blur-sm" onClick={onClose} />
 
             <div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">

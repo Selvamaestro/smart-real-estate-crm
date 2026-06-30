@@ -479,7 +479,7 @@ const AdminLayout = ({ children }) => {
             {/* Main Content Space */}
             <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative z-10 transition-all duration-300">
                 {/* Header Navbar */}
-                <header className="h-[80px] bg-white/70 backdrop-blur-md border-b border-slate-200/50 sticky top-0 z-40 px-8 flex items-center justify-between shrink-0">
+                <header className="h-[80px] bg-white/70 backdrop-blur-md border-b border-slate-200/50 sticky top-0 z-40 px-8 flex items-center justify-between shrink-0 lg:hidden">
                     <div className="flex items-center gap-6">
                         <button className="lg:hidden text-slate-500 hover:text-[#0F172A]" onClick={() => setMobileOpen(true)}>
                             <LayoutDashboard size={24} />

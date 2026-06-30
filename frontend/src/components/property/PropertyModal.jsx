@@ -40,7 +40,7 @@ export default function PropertyModal({ property, onClose, onEdit, onDelete }) {
     };
 
     return createPortal(
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-4 font-['Poppins',sans-serif]">
+        <div className="fixed top-0 bottom-0 right-0 z-[9999] flex items-center justify-center p-2 sm:p-4 font-['Poppins',sans-serif]" style={{ left: 'var(--sidebar-width, 0px)', transition: 'left 300ms cubic-bezier(0.4, 0, 0.2, 1)' }}>
             <div className="absolute inset-0 bg-[#0B1C30]/50 backdrop-blur-sm" onClick={onClose} />
 
             <div className="relative bg-white w-full max-w-5xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl flex flex-col md:flex-row">
