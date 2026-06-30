@@ -28,7 +28,7 @@ export default function PropertyModal({ property, onClose, onEdit, onDelete }) {
     };
 
     return createPortal(
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 font-['Poppins',sans-serif]">
+        <div className="fixed top-0 bottom-0 right-0 z-[100] flex items-center justify-center p-2 sm:p-4 font-['Poppins',sans-serif]" style={{ left: 'var(--sidebar-width, 0px)', transition: 'left 300ms cubic-bezier(0.4, 0, 0.2, 1)' }}>
             <div className="absolute inset-0 bg-[#0B1C30]/40 backdrop-blur-sm" onClick={onClose} />
 
             <div className="relative bg-white w-full max-w-5xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl flex flex-col md:flex-row">
@@ -164,14 +164,20 @@ export default function PropertyModal({ property, onClose, onEdit, onDelete }) {
                         </div>
                     )}
 
-                    <div className="mt-auto pt-8 border-t border-[#eff4ff] flex gap-4">
-                        <button onClick={onEdit} className="flex-1 flex items-center justify-center gap-2 bg-[#0e1b34] text-[#FFE088] py-3.5 rounded-xl text-[13px] font-bold hover:opacity-90 transition-all shadow-sm">
-                            <Edit size={16} /> Edit Property
-                        </button>
-                        <button onClick={onDelete} className="w-14 shrink-0 flex items-center justify-center border border-[#BA1A1A] text-[#BA1A1A] rounded-xl hover:bg-[#BA1A1A] hover:text-white transition-all">
-                            <Trash2 size={16} />
-                        </button>
-                    </div>
+                    {(onEdit || onDelete) && (
+                        <div className="mt-auto pt-8 border-t border-[#eff4ff] flex gap-4">
+                            {onEdit && (
+                                <button onClick={onEdit} className="flex-1 flex items-center justify-center gap-2 bg-[#0e1b34] text-[#FFE088] py-3.5 rounded-xl text-[13px] font-bold hover:opacity-90 transition-all shadow-sm">
+                                    <Edit size={16} /> Edit Property
+                                </button>
+                            )}
+                            {onDelete && (
+                                <button onClick={onDelete} className="w-14 shrink-0 flex items-center justify-center border border-[#BA1A1A] text-[#BA1A1A] rounded-xl hover:bg-[#BA1A1A] hover:text-white transition-all">
+                                    <Trash2 size={16} />
+                                </button>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>,

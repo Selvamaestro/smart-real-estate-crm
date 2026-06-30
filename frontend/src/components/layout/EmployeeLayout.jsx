@@ -51,6 +51,19 @@ const EmployeeLayout = ({ children }) => {
     const [collapsed, setCollapsed] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
 
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 1024) {
+                document.documentElement.style.setProperty('--sidebar-width', '0px');
+            } else {
+                document.documentElement.style.setProperty('--sidebar-width', collapsed ? '80px' : '280px');
+            }
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [collapsed]);
+
     const [notifications, setNotifications] = useState([]);
     const [unreadCount, setUnreadCount] = useState(0);
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -346,7 +359,7 @@ const EmployeeLayout = ({ children }) => {
 
             {/* Centered Notifications Modal Showcase */}
             {dropdownOpen && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                <div className="fixed top-0 bottom-0 right-0 z-[100] flex items-center justify-center p-4" style={{ left: 'var(--sidebar-width, 0px)', transition: 'left 300ms cubic-bezier(0.4, 0, 0.2, 1)' }}>
                     <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-sm" onClick={() => setDropdownOpen(false)} />
                     <div className="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden text-[#171C2D] animate-fade-in flex flex-col max-h-[80vh]">
                         <div className="px-6 py-4 bg-slate-50 flex justify-between items-center border-b border-slate-100 shrink-0">

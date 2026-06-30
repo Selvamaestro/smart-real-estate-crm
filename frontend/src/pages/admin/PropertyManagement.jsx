@@ -4,6 +4,7 @@ import Notification from "../../components/common/Notification";
 import PropertyModal from "../../components/property/PropertyModal";
 import PropertyFormModal from "../../components/property/PropertyFormModal";
 import { useNotify } from "../../hooks/useNotify";
+import { useSearch } from "../../context/SearchContext";
 import api from "../../api";
 import {
     Plus, Box, CheckCircle2, Lock, Handshake, AlertCircle,
@@ -26,7 +27,7 @@ export default function PropertyManagement() {
     const [view, setView] = useState("grid");
     const [locationFilter, setLocationFilter] = useState("All Locations");
     const [priceFilter, setPriceFilter] = useState("Price Range");
-    const [searchQuery, setSearchQuery] = useState("");
+    const { globalSearch: searchQuery } = useSearch();
 
     const [showAddModal, setShowAddModal] = useState(false);
     const [selectedProperty, setSelectedProperty] = useState(null);
