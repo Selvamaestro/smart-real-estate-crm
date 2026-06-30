@@ -166,7 +166,7 @@ export default function FollowUpFormModal({ isOpen, onClose, onSave, followUp, s
                 {/* Modal Footer */}
                 <div className="p-6 border-t border-outline-variant bg-white flex justify-end gap-4">
                     <button type="button" onClick={onClose} className="px-6 py-2 text-on-surface-variant font-label-md text-label-md hover:text-primary transition-colors font-semibold">Cancel</button>
-                    <button type="submit" form="followup-form" disabled={saving} className="px-8 py-2 bg-primary-container text-white rounded-lg font-label-md text-label-md hover:bg-primary transition-all flex items-center gap-2 font-semibold">
+                    <button type="submit" form="followup-form" disabled={saving} className="px-8 py-2 bg-[#171C2D] text-[#F4B400] rounded-lg font-label-md text-label-md hover:bg-[#23293D] transition-all flex items-center gap-2 font-semibold border border-[#F4B400]/30">
                         {saving ? <span className="material-symbols-outlined animate-spin text-[18px]">sync</span> : <span className="material-symbols-outlined text-[18px]">save</span>}
                         {saving ? 'Saving...' : 'Save Changes'}
                     </button>

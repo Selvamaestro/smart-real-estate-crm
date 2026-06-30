@@ -8,7 +8,7 @@ export function PropertyProvider({ children }) {
     const [properties, setProperties] = useState([]);
     const [featuredProperty, setFeaturedProperty] = useState(null);
     const [stats, setStats] = useState({ total: 0, available: 0, booked: 0, negotiation: 0 });
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { globalSearch: searchQuery, setGlobalSearch: setSearchQuery } = useSearch();
     const [debouncedSearch, setDebouncedSearch] = useState(searchQuery);

@@ -3,6 +3,7 @@ import AdminLayout from "../../components/layout/AdminLayout";
 import Notification from "../../components/common/Notification";
 import { useNotify } from "../../hooks/useNotify";
 import api from "../../api";
+import { getBackendURL } from "../../api";
 import SiteVisitModal from "../../components/admin/SiteVisitModal";
 
 const SiteVisitVerification = () => {
@@ -145,7 +146,7 @@ const VisitCard = ({ visit, onAction }) => (
     <div className="bg-white p-6 rounded-2xl border border-slate-200 flex items-center gap-6 group hover:shadow-lg transition-all">
         <div className="w-24 h-24 rounded-xl overflow-hidden shadow-inner bg-slate-100">
             {visit.selfieImage && visit.selfieImage !== 'default.jpg' ? (
-                <img src={`/uploads/${visit.selfieImage}`} alt="Selfie" className="w-full h-full object-cover" />
+                <img src={getBackendURL(`/uploads/${visit.selfieImage}`)} alt="Selfie" className="w-full h-full object-cover" />
             ) : (
                 <div className="w-full h-full flex items-center justify-center text-slate-300">
                     <span className="material-symbols-outlined text-4xl">person</span>

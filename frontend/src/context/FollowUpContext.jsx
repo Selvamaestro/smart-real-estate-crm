@@ -13,7 +13,7 @@ export function FollowUpProvider({ children }) {
     const [nextFollowUp, setNextFollowUp] = useState(null);
     const [selectedFollowUp, setSelectedFollowUp] = useState(null);
     const [modalOpen, setModalOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState(null);
 
