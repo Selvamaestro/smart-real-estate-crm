@@ -32,6 +32,7 @@ const app = express();
 
 app.use(helmet());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/api/uploads", express.static(path.join(__dirname, "uploads")));
 const allowedOrigins = [
   process.env.FRONTEND_URL,
   "http://localhost:5173",

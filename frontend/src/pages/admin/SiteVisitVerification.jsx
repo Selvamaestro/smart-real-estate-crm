@@ -12,6 +12,7 @@ const SiteVisitVerification = () => {
     const [isFetching, setIsFetching] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [previewImage, setPreviewImage] = useState(null);
 
     const fetchVisits = async () => {
         try {
@@ -98,7 +99,12 @@ const SiteVisitVerification = () => {
                             <div className="p-20 text-center text-slate-400 font-bold border-2 border-dashed border-slate-200 rounded-xl">No visits found.</div>
                         ) : (
                             filteredVisits.map(visit => (
-                                <VisitCard key={visit._id} visit={visit} onAction={handleAction} />
+                                <VisitCard
+                                    key={visit._id}
+                                    visit={visit}
+                                    onAction={handleAction}
+                                    onPreview={() => setPreviewImage(getBackendURL(`/uploads/${visit.selfieImage}`))}
+                                />
                             ))
                         )}
                     </div>
@@ -128,6 +134,25 @@ const SiteVisitVerification = () => {
                     }}
                 />
             )}
+
+            {/* FULL SCREEN IMAGE PREVIEW MODAL */}
+            {previewImage && (
+                <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in" onClick={() => setPreviewImage(null)}>
+                    <div className="relative max-w-4xl max-h-[90vh] flex flex-col pt-10" onClick={e => e.stopPropagation()}>
+                        <button
+                            onClick={() => setPreviewImage(null)}
+                            className="absolute -top-10 right-0 md:-right-10 w-10 h-10 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center backdrop-blur-md transition-all border border-white/20"
+                        >
+                            <span className="material-symbols-outlined">close</span>
+                        </button>
+                        <img
+                            src={previewImage}
+                            alt="Site Visit Verification"
+                            className="w-auto h-auto max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl"
+                        />
+                    </div>
+                </div>
+            )}
         </AdminLayout>
     );
 };
@@ -142,9 +167,16 @@ const StatsCard = ({ label, value, icon, isUrgent }) => (
     </div>
 );
 
-const VisitCard = ({ visit, onAction }) => (
+const VisitCard = ({ visit, onAction, onPreview }) => (
     <div className="bg-white p-6 rounded-2xl border border-slate-200 flex items-center gap-6 group hover:shadow-lg transition-all">
-        <div className="w-24 h-24 rounded-xl overflow-hidden shadow-inner bg-slate-100">
+        <div
+            className={`w-24 h-24 rounded-xl overflow-hidden shadow-inner bg-slate-100 ${visit.selfieImage && visit.selfieImage !== 'default.jpg' ? 'cursor-pointer hover:opacity-80 transition-opacity' : ''}`}
+            onClick={() => {
+                if (visit.selfieImage && visit.selfieImage !== 'default.jpg' && onPreview) {
+                    onPreview();
+                }
+            }}
+        >
             {visit.selfieImage && visit.selfieImage !== 'default.jpg' ? (
                 <img src={getBackendURL(`/uploads/${visit.selfieImage}`)} alt="Selfie" className="w-full h-full object-cover" />
             ) : (
