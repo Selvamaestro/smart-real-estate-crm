@@ -309,10 +309,10 @@ const EmployeeLayout = ({ children }) => {
                 {/* Collapse Toggle Bubble */}
                 <button
                     onClick={() => setCollapsed(!collapsed)}
-                    className="absolute -right-3 top-[32px] w-6 h-6 rounded-full border border-[rgba(255,255,255,0.08)] bg-[#23293D] text-[#A0A7B8] flex items-center justify-center z-50 hover:text-white hover:bg-[rgba(255,255,255,0.06)] shadow-lg transition-colors cursor-pointer"
+                    className="absolute -right-4 top-[32px] w-8 h-8 rounded-full border-2 border-[#F4B400] bg-[#171C2D] text-[#F4B400] hover:bg-[#F4B400] hover:text-[#171C2D] flex items-center justify-center z-50 shadow-xl transition-all duration-200 cursor-pointer"
                     title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
                 >
-                    {collapsed ? <ChevronRight size={12} /> : <ChevronLeft size={12} />}
+                    {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
                 </button>
             </motion.aside>
 
