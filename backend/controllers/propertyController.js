@@ -44,6 +44,7 @@ exports.getProperties = asyncHandler(async (req, res) => {
     }
 
     const properties = await Property.find(filter)
+        .select("-documents.fileData")
         .populate('assignedTo', 'name email')
         .sort("-createdAt");
 
