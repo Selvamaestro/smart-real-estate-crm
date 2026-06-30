@@ -57,6 +57,7 @@ const AdminLayout = ({ children }) => {
 
     const [collapsed, setCollapsed] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
 
     // Automatically expand the parent menu if the location matches a sub-item
     const [expandedMenus, setExpandedMenus] = useState({
@@ -230,11 +231,37 @@ const AdminLayout = ({ children }) => {
                         );
 
                         return (
-                            <div key={item.id} title={collapsed && !isMobile ? item.label : ""}>
-                                {hasSub ? (
-                                    <div onClick={(e) => toggleSubMenu(e, item.id)}>{content}</div>
-                                ) : (
-                                    <Link to={item.path} onClick={isMobile ? () => setMobileOpen(false) : undefined}>{content}</Link>
+                            <div key={item.id} className="space-y-[6px]">
+                                <div title={collapsed && !isMobile ? item.label : ""}>
+                                    {hasSub ? (
+                                        <div onClick={(e) => toggleSubMenu(e, item.id)}>{content}</div>
+                                    ) : (
+                                        <Link to={item.path} onClick={isMobile ? () => setMobileOpen(false) : undefined}>{content}</Link>
+                                    )}
+                                </div>
+                                {item.id === "dashboard" && (
+                                    <div className="my-[8px]">
+                                        {!collapsed || isMobile ? (
+                                            <div className="relative w-full px-2">
+                                                <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                                                <input
+                                                    type="text"
+                                                    placeholder="Search..."
+                                                    className="w-full pl-9 pr-3 py-2 bg-[#23293D] border border-[rgba(255,255,255,0.06)] rounded-xl text-xs text-white outline-none focus:ring-1 focus:ring-[#F4B400] focus:border-[#F4B400] transition-all placeholder:text-[#A0A7B8]"
+                                                    value={searchQuery}
+                                                    onChange={e => setSearchQuery(e.target.value)}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div
+                                                onClick={() => setCollapsed(false)}
+                                                className="w-10 h-10 mx-auto rounded-xl bg-[#23293D] flex items-center justify-center text-slate-400 hover:text-white cursor-pointer transition-colors"
+                                                title="Search"
+                                            >
+                                                <Search size={18} />
+                                            </div>
+                                        )}
+                                    </div>
                                 )}
                             </div>
                         );
@@ -283,23 +310,8 @@ const AdminLayout = ({ children }) => {
                     {renderNavList(false)}
                 </nav>
 
-                {/* Sidebar Search & Bell */}
+                {/* Sidebar Notification Cluster */}
                 <div className="px-4 py-3 border-t border-[rgba(255,255,255,0.08)] shrink-0 bg-[#171C2D]">
-                    {/* Search */}
-                    {!collapsed ? (
-                        <div className="relative mb-2">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
-                            <input
-                                type="text"
-                                placeholder="Search..."
-                                className="w-full pl-9 pr-3 py-2 bg-[#23293D] border border-[rgba(255,255,255,0.06)] rounded-xl text-xs text-white outline-none focus:ring-1 focus:ring-[#F4B400] focus:border-[#F4B400] transition-all placeholder:text-[#A0A7B8]"
-                            />
-                        </div>
-                    ) : (
-                        <div className="w-10 h-10 mx-auto mb-2 rounded-xl bg-[#23293D] flex items-center justify-center text-slate-400 hover:text-white cursor-pointer transition-colors" title="Search">
-                            <Search size={18} />
-                        </div>
-                    )}
 
                     {/* Notifications Button */}
                     <button

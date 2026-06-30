@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
     Bell,
     Building2,
@@ -40,13 +41,10 @@ const toTimeInput = (date) => {
 };
 
 const getInitials = (name) => {
-    if (!name) return '??';
-    return name
-        .split(' ')
-        .map((part) => part[0])
-        .join('')
-        .slice(0, 2)
-        .toUpperCase();
+    if (!name) return 'C';
+    const parts = name.trim().split(' ').filter(Boolean);
+    const initials = parts.map((part) => part[0]).join('').slice(0, 2).toUpperCase();
+    return initials || 'C';
 };
 
 const isSameDay = (left, right) =>
@@ -222,16 +220,22 @@ const FollowUpManagement = () => {
                 employees.find(e => e._id === (record.assignedTo?._id || record.assignedTo))?.name ||
                 'System Admin';
 
+            const resolvedCustomerName = record.customerName || record.leadId?.name || '';
+            const resolvedPhone = record.phone || record.leadId?.phone || '';
+            const resolvedWhatsapp = record.whatsapp || resolvedPhone || '';
+            const resolvedProperty = record.property || record.leadId?.property || properties[0] || '';
+
             return {
                 ...record,
                 computedStatus: recordStatus,
-                customerInitials: getInitials(record.customerName),
+                customerName: resolvedCustomerName,
+                customerInitials: getInitials(resolvedCustomerName),
                 assignedEmployee: employeeName,
                 assignedEmployeeId: record.assignedTo?._id || record.assignedTo,
                 employeeInitials: getInitials(employeeName),
-                phone: record.phone || '+91 9800 0000',
-                whatsapp: record.whatsapp || '+91 9700 0000',
-                property: record.property || properties[0],
+                phone: resolvedPhone,
+                whatsapp: resolvedWhatsapp,
+                property: resolvedProperty,
                 priority: record.priority || 'Medium',
                 date: toDateInput(record.schedule),
                 time: toTimeInput(record.schedule)
@@ -791,7 +795,7 @@ const FollowUpManagement = () => {
                     </div>
                 </aside>
 
-                {deleteTarget && (
+                {deleteTarget && createPortal(
                     <div className="modal-overlay" onClick={() => setDeleteTarget(null)}>
                         <div className="modal-content small-modal" onClick={(event) => event.stopPropagation()}>
                             <div className="modal-header">
@@ -817,10 +821,11 @@ const FollowUpManagement = () => {
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div>,
+                    document.body
                 )}
 
-                {modalMode && (
+                {modalMode && createPortal(
                     <div className="modal-overlay" onClick={closeFollowUpModal}>
                         <div className="modal-content" onClick={(event) => event.stopPropagation()}>
                             <div className="modal-header">
@@ -974,10 +979,11 @@ const FollowUpManagement = () => {
                                 </form>
                             )}
                         </div>
-                    </div>
+                    </div>,
+                    document.body
                 )}
 
-                {selectedEmployeeAnalytics && (
+                {selectedEmployeeAnalytics && createPortal(
                     <div className="modal-overlay" onClick={() => setSelectedEmployee(null)}>
                         <div className="modal-content small-modal" onClick={(event) => event.stopPropagation()}>
                             <div className="modal-header">
@@ -1020,7 +1026,8 @@ const FollowUpManagement = () => {
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div>,
+                    document.body
                 )}
             </div>
         </AdminLayout>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 const EMPTY_FORM = {
     leadId: '',
@@ -20,13 +21,18 @@ export default function FollowUpFormModal({ isOpen, onClose, onSave, followUp, s
 
     useEffect(() => {
         if (followUp) {
+            const resolvedCustomerName = followUp.customerName || followUp.leadId?.name || '';
+            const resolvedPhone = followUp.phoneNumber || followUp.phone || followUp.leadId?.phone || '';
+            const resolvedWhatsapp = followUp.whatsappNumber || followUp.whatsapp || resolvedPhone || '';
+            const resolvedProperty = followUp.propertyName || followUp.property || followUp.leadId?.property || '';
+
             setFormData({
-                leadId: followUp.leadId || '',
-                assignedTo: followUp.assignedTo || '',
-                customerName: followUp.customerName || '',
-                phoneNumber: followUp.phoneNumber || followUp.phone || '',
-                whatsappNumber: followUp.whatsappNumber || followUp.whatsapp || '',
-                propertyName: followUp.propertyName || followUp.property || '',
+                leadId: followUp.leadId?._id || followUp.leadId || '',
+                assignedTo: followUp.assignedTo?._id || followUp.assignedTo || '',
+                customerName: resolvedCustomerName,
+                phoneNumber: resolvedPhone,
+                whatsappNumber: resolvedWhatsapp,
+                propertyName: resolvedProperty,
                 followUpDate: (followUp.followUpDate || '').slice(0, 10),
                 followUpTime: followUp.followUpTime || '10:00',
                 priority: followUp.priority || 'Normal',
@@ -55,11 +61,13 @@ export default function FollowUpFormModal({ isOpen, onClose, onSave, followUp, s
     };
 
     const getInitials = (name) => {
-        if (!name) return '??';
-        return name.split(' ').map(part => part[0]).join('').slice(0, 2).toUpperCase();
+        if (!name) return 'C';
+        const parts = name.trim().split(' ').filter(Boolean);
+        const initials = parts.map(part => part[0]).join('').slice(0, 2).toUpperCase();
+        return initials || 'C';
     };
 
-    return (
+    return createPortal(
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 animate-fade-in">
             <div className="absolute inset-0 bg-primary-container/40 backdrop-blur-sm" onClick={onClose}></div>
             <div className="glass-modal w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-2xl shadow-2xl relative flex flex-col bg-white">
@@ -67,7 +75,7 @@ export default function FollowUpFormModal({ isOpen, onClose, onSave, followUp, s
                 <div className="p-8 border-b border-outline-variant flex justify-between items-start">
                     <div className="flex items-center gap-6">
                         <div className="w-16 h-16 rounded-2xl bg-primary-container text-white flex items-center justify-center font-bold text-xl uppercase shadow-sm">
-                            {isEdit && formData.customerName ? (
+                            {formData.customerName ? (
                                 <span>{getInitials(formData.customerName)}</span>
                             ) : (
                                 <span className="material-symbols-outlined text-[32px]">{isEdit ? 'edit_square' : 'event_note'}</span>
@@ -163,6 +171,7 @@ export default function FollowUpFormModal({ isOpen, onClose, onSave, followUp, s
                     </button>
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 }

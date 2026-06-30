@@ -163,8 +163,34 @@ const EmployeeLayout = ({ children }) => {
                         );
 
                         return (
-                            <div key={item.id} title={collapsed && !isMobile ? item.label : ""}>
-                                <Link to={item.path} onClick={isMobile ? () => setMobileOpen(false) : undefined}>{content}</Link>
+                            <div key={item.id} className="space-y-[6px]">
+                                <div title={collapsed && !isMobile ? item.label : ""}>
+                                    <Link to={item.path} onClick={isMobile ? () => setMobileOpen(false) : undefined}>{content}</Link>
+                                </div>
+                                {item.id === "dashboard" && (
+                                    <div className="my-[8px]">
+                                        {!collapsed || isMobile ? (
+                                            <div className="relative w-full px-2">
+                                                <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+                                                <input
+                                                    type="text"
+                                                    placeholder="Search..."
+                                                    className="w-full pl-9 pr-3 py-2 bg-[#23293D] border border-[rgba(255,255,255,0.06)] rounded-xl text-xs text-white outline-none focus:ring-1 focus:ring-[#F4B400] focus:border-[#F4B400] transition-all placeholder:text-[#A0A7B8]"
+                                                    value={searchQuery}
+                                                    onChange={e => setSearchQuery(e.target.value)}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div
+                                                onClick={() => setCollapsed(false)}
+                                                className="w-10 h-10 mx-auto rounded-xl bg-[#23293D] flex items-center justify-center text-slate-400 hover:text-white cursor-pointer transition-colors"
+                                                title="Search"
+                                            >
+                                                <Search size={18} />
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         );
                     })}
@@ -212,24 +238,8 @@ const EmployeeLayout = ({ children }) => {
                     {renderNavList(false)}
                 </nav>
 
-                {/* Sidebar Search Bar and Notifications */}
+                {/* Sidebar Notification Cluster */}
                 <div className="px-[18px] mb-4 shrink-0">
-                    {!collapsed ? (
-                        <div className="relative w-full">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A0A7B8]" size={16} />
-                            <input
-                                type="text"
-                                placeholder="Search..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-9 pr-4 py-2 bg-[#23293D] border border-[rgba(255,255,255,0.08)] rounded-xl text-xs outline-none focus:border-[#F4B400] text-white font-medium placeholder:text-[#A0A7B8]/60"
-                            />
-                        </div>
-                    ) : (
-                        <div className="flex justify-center text-[#A0A7B8] hover:text-white cursor-pointer" onClick={() => setCollapsed(false)}>
-                            <Search size={18} />
-                        </div>
-                    )}
 
                     {/* Notifications Button */}
                     <button

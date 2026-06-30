@@ -11,6 +11,22 @@ const mapFollowUpForFrontend = (fu) => {
         f.assignedTo = f.leadId.assignedTo;
     }
 
+    // Resolve missing fields from populated leadId
+    if (f.leadId) {
+        if (!f.customerName && f.leadId.name) {
+            f.customerName = f.leadId.name;
+        }
+        if (!f.phone && f.leadId.phone) {
+            f.phone = f.leadId.phone;
+        }
+        if (!f.whatsapp && f.leadId.phone) {
+            f.whatsapp = f.leadId.phone;
+        }
+        if (!f.property && f.leadId.property) {
+            f.property = f.leadId.property;
+        }
+    }
+
     if (f.schedule) {
         const dateObj = new Date(f.schedule);
         f.followUpDate = f.followUpDate || dateObj.toISOString().slice(0, 10);
